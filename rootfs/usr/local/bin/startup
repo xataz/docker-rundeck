@@ -1,0 +1,48 @@
+#!/bin/sh
+
+## Functions
+f_log() {
+    echo "=$1= $(date +%d/%m/%Y-%H:%M:%S) : $2"
+}
+
+### Install
+f_log INF "Install Rundeck ..."
+java -jar /rundeck/bin/rundeck.jar --installonly -b /rundeck
+
+f_log INF "Create rundeck user ..."
+addgroup -g ${GID} rundeck && adduser -h /home/rundeck -s /bin/sh -G rundeck -D -u ${UID} rundeck
+
+f_log INF "Creating directory ..."
+mkdir -p /rundeck/projects /rundeck/config /home/rundeck/.ssh
+
+f_log INF "Copy configuration file ..."
+cp -R /rundeck/rundeck.defaults/* /rundeck/
+
+if [ ! -e /rundeck/config/.ssh/rundeck_rsa ]; then
+    f_log INF "Generate rsa key ..."
+    ssh-keygen -t rsa -b 4096 -P "" -q -f /home/rundeck/.ssh/id_rsa
+fi
+
+f_log INF "Apply permissions ..."
+chown -R rundeck: /rundeck /home/rundeck
+
+### Generate configuration
+f_log INF "Configure URI ..."
+sed -i -e 's#<uri_access>#'${URI_ACCESS}'#' /rundeck/server/config/rundeck-config.properties
+sed -i -e 's#<uri_access>#'${URI_ACCESS}'#' /rundeck/etc/framework.properties
+
+### Generate password
+JETTY_PATH=$(ls /rundeck/server/lib/jetty-all*)
+f_log INF "Encrypt admin password ..."
+_ADMIN=$(java -cp ${JETTY_PATH} org.eclipse.jetty.util.security.Password admin ${ADMIN_PASSWORD} 2>&1 | grep MD5)
+sed -i -e 's/<admin_password>/'${_ADMIN}'/' /rundeck/config/realm.properties
+
+f_log INF "Encrypt user password ..."
+_USER=$(java -cp ${JETTY_PATH} org.eclipse.jetty.util.security.Password ${USER_NAME} ${USER_PASSWORD} 2>&1 | grep MD5)
+sed -i -e 's/<user_password>/'${_USER}'/' \
+        -e 's/<user_name>/'${USER_NAME}'/' /rundeck/config/realm.properties
+
+
+## Launch
+f_log INF "Launch Rundeck ..."
+exec su-exec rundeck:rundeck /sbin/tini -- $@
