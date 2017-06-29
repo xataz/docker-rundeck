@@ -1,8 +1,11 @@
 # Rundeck
 
-> This image is build on my own server and push directly.
-> If you don't trust, you can build yourself.
+[![Build Status](https://drone.xataz.net/api/badges/xataz/docker-rundeck/status.svg)](https://drone.xataz.net/xataz/docker-rundeck)
+[![](https://images.microbadger.com/badges/image/xataz/rundeck.svg)](https://microbadger.com/images/xataz/rundeck "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/xataz/rundeck.svg)](https://microbadger.com/images/xataz/rundeck "Get your own version badge on microbadger.com")
 
+> This image is build and push with [drone.io](https://github.com/drone/drone), a circle-ci like self-hosted.
+> If you don't trust, you can build yourself.
 
 ## Features
 * Based on alpine
