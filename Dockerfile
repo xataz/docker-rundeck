@@ -5,7 +5,7 @@ ARG RUNDECK_VER=2.8.2
 LABEL description="rundeck based on alpine" \
       tags="latest 2.8.2" \
       maintainer="xataz <https://github.com/xataz>" \
-      build_ver="2017090601"
+      build_ver="2017090801"
 
 ENV URI_ACCESS="http://localhost:4440" \
     ADMIN_PASSWORD="4dM!n" \
