@@ -20,7 +20,7 @@ cp -R /rundeck/rundeck.defaults/* /rundeck/
 
 if [ ! -e /rundeck/config/.ssh/rundeck_rsa ]; then
     f_log INF "Generate rsa key ..."
-    ssh-keygen -t rsa -b 4096 -P "" -q -f /rundeck.config/.ssh/rundeck_rsa
+    ssh-keygen -t rsa -b 4096 -P "" -q -f /rundeck/config/.ssh/rundeck_rsa
 fi
 
 f_log INF "Apply permissions ..."
