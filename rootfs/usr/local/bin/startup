@@ -13,7 +13,7 @@ f_log INF "Create rundeck user ..."
 addgroup -g ${GID} rundeck && adduser -h /home/rundeck -s /bin/sh -G rundeck -D -u ${UID} rundeck
 
 f_log INF "Creating directory ..."
-mkdir -p /rundeck/projects /rundeck/config /home/rundeck/.ssh
+mkdir -p /rundeck/projects /rundeck/config /rundeck/config/.ssh/
 
 f_log INF "Copy configuration file ..."
 cp -R /rundeck/rundeck.defaults/* /rundeck/
