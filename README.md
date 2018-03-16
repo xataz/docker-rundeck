@@ -15,7 +15,7 @@
 
 
 ## Tag available
-* latest [(Dockerfile)](https://github.com/xataz/docker-rundeck/blob/master/Dockerfile)
+* latest, 2.10.7, 2.10, 2 [(Dockerfile)](https://github.com/xataz/docker-rundeck/blob/master/Dockerfile)
 
 
 ## Description
